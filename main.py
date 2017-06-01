@@ -40,6 +40,7 @@ def get_comment():
 	driver.get('https://www.youtube.com/')
 	youtube_username = "commentator951@gmail.com"
 	youtube_password = "comment951"
+	'//input[@type="email"]'
 	signin_button_class = 'signin-container '
 	username_id = 'identifierId'
 	'''

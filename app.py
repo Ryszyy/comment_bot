@@ -32,19 +32,22 @@ def main():
                 time.sleep(1)
                 continue
 
-        comments = ""
+        comments_rake = ""
+        comments = []
         for item in driver.find_elements_by_class_name("comment-renderer-text-content"):
-            comments = comments + item.text
+            comments_rake = comments_rake + item.text
+            comments.append(item.text)
         # print(item.text)
         # print("-" * 80)
         driver.close()
     # print(comments)
 
         r = Rake()
-        r.extract_keywords_from_text(comments)
+        r.extract_keywords_from_text(comments_rake)
         half =len(r.get_ranked_phrases())/2
         keywords_list = r.get_ranked_phrases()[:int(half)]
         context['keywords'] = keywords_list
+        context['comments'] = comments
 
         return render_template('index.html', context=context)
 
