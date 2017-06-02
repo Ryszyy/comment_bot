@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block css %}
+	<style>
+	.center {
+	padding: 40px 0;
+	text-align: center;
+	}
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript">
+	var arr = '{{context.comments}}'.replace(/&#39;/g, ' ').replace(/&#34;/g, ' ').split(',')
+	$(document).ready(function(){
+		$("button").click(function(){
+			$("h2").text(arr[Math.floor(Math.random() * arr.length)]);
+		});
+	});
+	</script>
+	
+{% endblock %}
+{% block body %}
+	<div class="center">
+		<h1>Comment Generator</h1><br>
+		<button>Generate new</button>
+		<p>{{context.url}}</p>
+		{% if context.your %}
+			<h2>{{context.your}}</h2>
+			<form method="post" action="/send">
+				<input id="sender" type="submit" name="comment" value="submit">
+			</form>
+			<h4>Rest of them</h4>
+			<br>
+		{% endif %}
+		{% if context.comments %}
+			{% for comment in context.comments %}
+				<p>{{comment}}</p>
+			{% endfor %}
+		{% endif %}
+	</div>
+{% endblock %}
