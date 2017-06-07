@@ -8,6 +8,7 @@
 	</style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script type="text/javascript">
+
 	var arr = '{{context.comments}}'.replace(/&#39;/g, ' ').replace(/&#34;/g, ' ').split(',')
 	$(document).ready(function(){
 		$("button").click(function(){
@@ -21,19 +22,26 @@
 	<div class="center">
 		<h1>Comment Generator</h1><br>
 		<button>Generate new</button>
-		<p>{{context.url}}</p>
 		{% if context.your %}
 			<h2>{{context.your}}</h2>
+			<hr>
+			<h5>Pick generated comment or write your own</h5>
 			<form method="post" action="/send">
-				<input id="sender" type="submit" name="comment" value="submit">
-			</form>
-			<h4>Rest of them</h4>
+			<input type="text" name="comment">
+			<input type="hidden" name="url" value="{{ context.url }}"/>
+		</form>
+		<br>
+			<h4>Rest of comments</h4>
 			<br>
 		{% endif %}
 		{% if context.comments %}
 			{% for comment in context.comments %}
 				<p>{{comment}}</p>
 			{% endfor %}
+		{% endif %}
+		{% if context.msg %}
+		<h2>Good job</h2>
+		<h2>You have posted comment: "{{context.msg}}"</h2>
 		{% endif %}
 	</div>
 {% endblock %}

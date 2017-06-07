@@ -63,17 +63,21 @@ def main():
 def send():
     msg = "Thank you!"
     context = {}
-    context['msg'] = msg
+    # context['msg'] = msg
     if request.method == 'POST':
+        url = request.form['url']
+ 
+
         msg = request.form['comment']
-        context['msg'] = msg
+        context["msg"] = msg
+
         # driver = webdriver.PhantomJS('/usr/bin/phantomjs')
         try:
             driver = webdriver.Chrome()
         except:
             driver = webdriver.Firefox()
         driver.maximize_window()
-        driver.get('https://www.youtube.com/watch?v=mg7netw1JuM')
+        driver.get(url)
         youtube_username = "commentator951@gmail.com"
         youtube_password = "comment951"
         time.sleep(1)
@@ -94,7 +98,7 @@ def send():
         next_button_pass = driver.find_element_by_xpath('//*[@id="passwordNext"]/content/span')
         next_button_pass.click()
 
-        time.sleep(4)
+        time.sleep(5)
         driver.execute_script("window.scrollTo(0, 600);")
         time.sleep(2)
         driver.find_element_by_xpath('//*[@id="comment-section-renderer"]/div[1]/div[1]/div[2]/div[1]').click()
@@ -104,13 +108,6 @@ def send():
         send_button = driver.find_element_by_xpath('//*[@id="comment-simplebox"]/div[3]/div[2]/button[2]')
         send_button.click()
 
-        
-        try:
-            message = driver.find_element_by_xpath('//*[@id="comment-section-renderer-items"]/section[1]/div[1]/div[2]/div[2]/div[1]').get_attribute('innerHTML')
-        except:
-            context['result'] = "Error ocurred"
-        else:
-            context['result'] = f'"{message}" has been sent'
         driver.close()
 
         return render_template('comments.html', context=context)
